@@ -29,8 +29,8 @@ export const canvasSetup = async (
         "width": 1920,
         "height": 1080,
         "fps": 60,
-        "size": 1,
-        "pixelDensity": 1
+        "size": 1.0,
+        "pixelDensity": window.devicePixelRatio
     }
 ) => {
     try { document.querySelector("canvas")?.remove() } catch (e: any) {
