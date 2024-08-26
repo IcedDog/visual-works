@@ -1,6 +1,5 @@
 import "./global.d.ts"
 import { canvasSetup, sketches } from "./index.ts"
-import { preload } from './experiments/index';
 
 let pauseBtn: HTMLButtonElement
 let dialog: HTMLDivElement
