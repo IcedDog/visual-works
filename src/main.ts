@@ -50,7 +50,7 @@ window.onload = () => {
           "height": 1080,
           "fps": 60,
           "size": 1,
-          "pixelDensity": 1
+          "pixelDensity": window.devicePixelRatio
         }
       )
     })
