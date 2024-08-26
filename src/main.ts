@@ -41,7 +41,18 @@ window.onload = () => {
     btn.classList.add("btn", "btn-outline", "btn-primary", "btn-xs")
     btn.addEventListener("click", () => {
       hideDialog()
-      canvasSetup(sketches[i].object.preload, sketches[i].object.setup, sketches[i].object.draw)
+      canvasSetup(
+        sketches[i].object.preload,
+        sketches[i].object.setup,
+        sketches[i].object.draw,
+        sketches[i].options || {
+          "width": 1920,
+          "height": 1080,
+          "fps": 60,
+          "size": 1,
+          "pixelDensity": 1
+        }
+      )
     })
     cell3.appendChild(btn)
     selectBtn.push(btn)
