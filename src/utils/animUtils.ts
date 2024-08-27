@@ -122,9 +122,11 @@ export const Easing = {
 };
 
 export const EasingLerp = (a: number, b: number, t: number, easing: (t: number, ..._: any[]) => number, ...args: any[]) => {
-    return a + (b - a) * easing(t, ...args);
+    if (args.length === 0) return a + (b - a) * easing(t);
+    else return a + (b - a) * easing(t, ...args);
 }
 
 export const EasingLerpAB = (a: number, b: number, now: number, easing: (t: number, ..._: any[]) => number, ...args: any[]) => {
-    return a + (b - a) * easing((b - a) / (now - a), ...args);
+    if (args.length === 0) return a + (b - a) * easing((now - a) / (b - a));
+    else return a + (b - a) * easing((b - a) / (now - a), ...args);
 }
