@@ -9,6 +9,8 @@ let restartBtn: HTMLButtonElement
 let closeBtn: HTMLButtonElement
 let selectBtn: HTMLButtonElement[]
 
+let currentSketch: any
+
 window.onload = () => {
   // @ts-ignore
   new p5((p) => {
@@ -26,8 +28,8 @@ window.onload = () => {
 
   overlay.addEventListener("mouseover", () => { if (!dialog.style.visibility) showPauseButton() })
   overlay.addEventListener("mouseout", () => { hidePauseButton() })
-  restartBtn.addEventListener("click", () => { hideDialog(); p.preload(); p.setup(); })
-  overlayReloadBtn.addEventListener("click", () => { p.preload(); p.setup(); })
+  restartBtn.addEventListener("click", () => { loadNewSketch(); hideDialog() })
+  overlayReloadBtn.addEventListener("click", () => { loadNewSketch() })
   closeBtn.addEventListener("click", () => { hideDialog() })
   overlayPauseBtn.addEventListener("click", () => { showDialog() })
 
@@ -46,18 +48,8 @@ window.onload = () => {
     btn.classList.add("btn", "btn-outline", "btn-primary", "btn-xs")
     btn.addEventListener("click", () => {
       hideDialog()
-      canvasSetup(
-        sketches[i].object.preload,
-        sketches[i].object.setup,
-        sketches[i].object.draw,
-        sketches[i].options || {
-          "width": 1920,
-          "height": 1080,
-          "fps": 60,
-          "size": 1,
-          "pixelDensity": window.devicePixelRatio
-        }
-      )
+      currentSketch = sketches[i]
+      loadNewSketch()
     })
     cell3.appendChild(btn)
     selectBtn.push(btn)
@@ -84,6 +76,21 @@ function showPauseButton() {
 
 function hidePauseButton() {
   overlay.style.opacity = "0"
+}
+
+function loadNewSketch() {
+  canvasSetup(
+    currentSketch.object.preload,
+    currentSketch.object.setup,
+    currentSketch.object.draw,
+    currentSketch.options || {
+      "width": 1920,
+      "height": 1080,
+      "fps": 60,
+      "size": 1,
+      "pixelDensity": window.devicePixelRatio
+    }
+  )
 }
 
 function canvasSetup(

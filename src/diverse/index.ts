@@ -162,8 +162,8 @@ function aperture(r: RectPos) {
         p.line(
             r.x + r.w / 2 + r.w * 0.14 * p.cos(p.radians(360 / num * (i - 1))),
             r.y + r.h / 2 + r.w * 0.14 * p.sin(p.radians(360 / num * (i - 1))),
-            r.x + r.w / 2 + r.w * 0.40 * p.cos(p.radians(360 / num * i)),
-            r.y + r.h / 2 + r.h * 0.41 * p.sin(p.radians(360 / num * i))
+            r.x + r.w / 2 + r.w * 0.39 * p.cos(p.radians(360 / num * i)),
+            r.y + r.h / 2 + r.h * 0.39 * p.sin(p.radians(360 / num * i))
         )
     }
     p.noErase()
