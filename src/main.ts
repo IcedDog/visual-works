@@ -1,4 +1,5 @@
 import { sketches } from "./index.ts"
+import * as audio from "./audio.ts"
 import "./global.d.ts"
 
 let overlay: HTMLButtonElement
@@ -12,11 +13,6 @@ let selectBtn: HTMLButtonElement[]
 let currentSketch: any
 
 window.onload = () => {
-  // @ts-ignore
-  new p5((p) => {
-    // @ts-ignore
-    window.p = p
-  })
   canvasSetup(() => { }, () => { }, () => { })
 
   overlay = <HTMLButtonElement>document.getElementById("pause-overlay")
@@ -50,6 +46,7 @@ window.onload = () => {
       hideDialog()
       currentSketch = sketches[i]
       loadNewSketch()
+      btn.blur()
     })
     cell3.appendChild(btn)
     selectBtn.push(btn)
@@ -60,12 +57,15 @@ window.onload = () => {
 
 function showDialog() {
   if (p.isLooping()) p.noLoop()
+  audio.pause()
   dialog.style.opacity = "1"
   dialog.style.pointerEvents = "auto"
 }
 
 function hideDialog() {
+  if (!p._preloadDone) return;
   if (!p.isLooping()) p.loop()
+  audio.play()
   dialog.style.opacity = "0"
   dialog.style.pointerEvents = "none"
 }
@@ -79,6 +79,7 @@ function hidePauseButton() {
 }
 
 function loadNewSketch() {
+  audio.dispose()
   canvasSetup(
     currentSketch.object.preload,
     currentSketch.object.setup,
@@ -91,6 +92,7 @@ function loadNewSketch() {
       "pixelDensity": window.devicePixelRatio
     }
   )
+  audio.loadAudio(currentSketch.audio)
 }
 
 function canvasSetup(
@@ -105,22 +107,22 @@ function canvasSetup(
     "pixelDensity": window.devicePixelRatio
   }
 ) {
-  try { document.querySelector("canvas")?.remove() } catch (e: any) {
-    try { p.remove() } catch (e: any) { }
-  }
+
+  try { p.remove() } catch (e) { }
+
+  // @ts-ignore
+  new p5((p) => { window.p = p })
+
   p.preload = () => { preloadFunction() }
   p.draw = () => { drawFunction() }
   p.setup = () => {
     p.createCanvas(options.width, options.height)
     p.pixelDensity(options.pixelDensity)
     p.frameRate(options.fps)
-    p.pop()
-    p.push()
-    p.clear()
-    p.resetShader()
     setupFunction()
   }
   p.windowResized = () => {
+    p._updateWindowSize()
     const canvas = document.querySelector("canvas") as HTMLCanvasElement
     canvas.style.position = "absolute"
     canvas.style.top = "50%"
@@ -128,6 +130,7 @@ function canvasSetup(
     const scale = Math.min(window.innerWidth / options.width, window.innerHeight / options.height) * options.size
     canvas.style.transform = "translate(-50%, -50%) scale(" + scale + ")"
   }
+
   p.preload()
   p.setup()
   p.windowResized()

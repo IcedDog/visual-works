@@ -12,7 +12,8 @@ export const sketches = [
             "fps": 60,
             "size": 1,
             "pixelDensity": window.devicePixelRatio
-        }
+        },
+        "audio": null
     },
     {
         "name": "Sample",
@@ -24,6 +25,7 @@ export const sketches = [
             "fps": 30,
             "size": 0.5,
             "pixelDensity": window.devicePixelRatio
-        }
+        },
+        "audio": "song.ogg"
     }
 ];

@@ -1,3 +1,6 @@
+import { EventEmitter } from './eventUtils';
+import { time } from '../audio';
+
 export interface BPMEntry {
     beat: number;
     bpm: number;
