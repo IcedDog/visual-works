@@ -1,22 +1,29 @@
-import * as experiments from './experiments';
-import * as another from './another';
+import * as experiments from './diverse';
+import * as another from './sample';
 
 export const sketches = [
     {
-        "name": "Experiments",
-        "description": "Collection of experiments",
-        "object": experiments
+        "name": "Diverse",
+        "description": "Plot of icons",
+        "object": experiments,
+        "options": {
+            "width": 1080,
+            "height": 1080,
+            "fps": 60,
+            "size": 1,
+            "pixelDensity": window.devicePixelRatio
+        }
     },
     {
-        "name": "Another",
-        "description": "Another sketch",
+        "name": "Sample",
+        "description": "Sample sketch for debugging",
         "object": another,
         "options": {
             "width": 720,
             "height": 720,
             "fps": 30,
             "size": 0.5,
-            "pixelDensity": 2
+            "pixelDensity": window.devicePixelRatio
         }
     }
 ];
