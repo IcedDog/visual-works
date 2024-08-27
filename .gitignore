@@ -24,10 +24,10 @@ dist-ssr
 *.sw?
 
 # Copyright goes :skull:
-*.mp3
-*.wav
-*.ogg
+# *.mp3
+# *.wav
+# *.ogg
 
 # Oversubstitution
-public/oversubstitution/data.json
-public/oversubstitution/oversubstitution.wav
+# public/oversubstitution/data.json
+# public/oversubstitution/oversubstitution.wav

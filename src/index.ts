@@ -31,7 +31,7 @@ export const sketches = [
     },
     {
         "name": "過置換",
-        "description": "An replication of <a href=\"https://github.com/qmelo/oversubstitution\">Oversubstitution</a> by melonade",
+        "description": "An replication of <a href=\"https://github.com/qmelo/oversubstitution\" style=\"text-decoration-line: underline; color: var(--fallback-bc, oklch(var(--bc) / 1));\">Oversubstitution</a> by melonade.", 
         "object": oversubstitution,
         "options": {
             "width": 1920,
