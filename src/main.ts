@@ -131,12 +131,12 @@ function canvasSetup(
     p.preload()
     tryPreload(cardActions.insertBefore(loader, restartBtn))
   })
+  hideDialog()
 }
 
 async function tryPreload(node: HTMLDivElement) {
   try {
     p.setup()
-    if (typeof currentSketch !== "undefined") hideDialog()
     p.windowResized()
     node.remove()
   } catch (e) {
