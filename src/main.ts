@@ -1,5 +1,5 @@
+import { sketches } from "./index.ts"
 import "./global.d.ts"
-import { canvasSetup, sketches } from "./index.ts"
 
 let pauseBtn: HTMLButtonElement
 let dialog: HTMLDivElement
@@ -79,4 +79,44 @@ function showPauseButton() {
 
 function hidePauseButton() {
   pauseBtn.style.opacity = "0"
+}
+
+function canvasSetup(
+  preloadFunction: Function,
+  setupFunction: Function,
+  drawFunction: Function,
+  options: any = {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "size": 1,
+    "pixelDensity": window.devicePixelRatio
+  }
+) {
+  try { document.querySelector("canvas")?.remove() } catch (e: any) {
+    try { p.remove() } catch (e: any) { }
+  }
+  p.preload = () => { preloadFunction() }
+  p.draw = () => { drawFunction() }
+  p.setup = () => {
+    p.createCanvas(options.width, options.height)
+    p.pixelDensity(options.pixelDensity)
+    p.frameRate(options.fps)
+    p.pop()
+    p.push()
+    p.clear()
+    p.resetShader()
+    setupFunction()
+  }
+  p.windowResized = () => {
+    const canvas = document.querySelector("canvas") as HTMLCanvasElement
+    canvas.style.position = "absolute"
+    canvas.style.top = "50%"
+    canvas.style.left = "50%"
+    const scale = Math.min(window.innerWidth / options.width, window.innerHeight / options.height) * options.size
+    canvas.style.transform = "translate(-50%, -50%) scale(" + scale + ")"
+  }
+  p.preload()
+  p.setup()
+  p.windowResized()
 }
