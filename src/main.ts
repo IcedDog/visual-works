@@ -1,7 +1,9 @@
 import { sketches } from "./index.ts"
 import "./global.d.ts"
 
-let pauseBtn: HTMLButtonElement
+let overlay: HTMLButtonElement
+let overlayPauseBtn: HTMLButtonElement
+let overlayReloadBtn: HTMLButtonElement
 let dialog: HTMLDivElement
 let restartBtn: HTMLButtonElement
 let closeBtn: HTMLButtonElement
@@ -15,16 +17,19 @@ window.onload = () => {
   })
   canvasSetup(() => { }, () => { }, () => { })
 
-  pauseBtn = <HTMLButtonElement>document.getElementById("pause-overlay-button")
+  overlay = <HTMLButtonElement>document.getElementById("pause-overlay")
   dialog = <HTMLDivElement>document.getElementById("files-card")
   restartBtn = <HTMLButtonElement>document.getElementById("restart-button")
   closeBtn = <HTMLButtonElement>document.getElementById("close-button")
+  overlayPauseBtn = <HTMLButtonElement>document.getElementById("pause-button")
+  overlayReloadBtn = <HTMLButtonElement>document.getElementById("reload-button")
 
-  pauseBtn.addEventListener("mouseover", () => { if (!dialog.style.visibility) showPauseButton() })
-  pauseBtn.addEventListener("mouseout", () => { hidePauseButton() })
+  overlay.addEventListener("mouseover", () => { if (!dialog.style.visibility) showPauseButton() })
+  overlay.addEventListener("mouseout", () => { hidePauseButton() })
   restartBtn.addEventListener("click", () => { hideDialog(); p.preload(); p.setup(); })
+  overlayReloadBtn.addEventListener("click", () => { p.preload(); p.setup(); })
   closeBtn.addEventListener("click", () => { hideDialog() })
-  pauseBtn.addEventListener("click", () => { showDialog() })
+  overlayPauseBtn.addEventListener("click", () => { showDialog() })
 
   const table = <HTMLTableElement>document.getElementById("files-table")
   selectBtn = []
@@ -74,11 +79,11 @@ function hideDialog() {
 }
 
 function showPauseButton() {
-  pauseBtn.style.opacity = "1"
+  overlay.style.opacity = "1"
 }
 
 function hidePauseButton() {
-  pauseBtn.style.opacity = "0"
+  overlay.style.opacity = "0"
 }
 
 function canvasSetup(

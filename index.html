@@ -16,19 +16,23 @@
       padding: 0;
       overflow: hidden;
       background-color: #111;
+      font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
     }
   </style>
 </head>
 
 <body>
-  <div id="pause-overlay-button" class="float-left absolute duration-200 z-10">
-    <div class="btn btn-circle btn-lg m-5 place-items-center">| |</div>
+  <div id="pause-overlay" class="float-left absolute duration-200 z-10">
+    <div id="pause-button" class="btn btn-circle btn-lg m-5 place-items-center">| |</div>
+    <br>
+    <div id="reload-button" class="btn btn-circle btn-lg m-5 place-items-center"> ↻ </div>
   </div>
   <div
     class="card bg-base-100 min-w-52 w-2/5 shadow-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 duration-200 bg-base-200 z-10"
     id="files-card">
     <div class="card-body">
       <div class="card-title">visual works</div>
+      <div class="card-subtitle text-neutral">Select a file to run. Pause button is at the upper left.</div>
       <div class="overflow-x-auto rounded-box shadow-lg">
         <table class="table table-pin-rows w-full" id="files-table">
           <thead class="border-b-0">
