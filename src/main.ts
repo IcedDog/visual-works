@@ -2,25 +2,20 @@ import { sketches } from "./index.ts"
 import * as audio from "./audio.ts"
 import "./global.d.ts"
 
-let overlay: HTMLButtonElement
-let overlayPauseBtn: HTMLButtonElement
-let overlayReloadBtn: HTMLButtonElement
-let dialog: HTMLDivElement
-let restartBtn: HTMLButtonElement
-let closeBtn: HTMLButtonElement
-let selectBtn: HTMLButtonElement[]
+const overlay = <HTMLButtonElement>document.getElementById("pause-overlay")
+const dialog = <HTMLDivElement>document.getElementById("files-card")
+const restartBtn = <HTMLButtonElement>document.getElementById("restart-button")
+const closeBtn = <HTMLButtonElement>document.getElementById("close-button")
+const overlayPauseBtn = <HTMLButtonElement>document.getElementById("pause-button")
+const overlayReloadBtn = <HTMLButtonElement>document.getElementById("reload-button")
+const cardActions = <HTMLDivElement>document.getElementById("card-actions")
+const loader = <HTMLDivElement>document.getElementById("p5_loading")?.cloneNode(true)
 
-let currentSketch: any
+let selectBtn: HTMLButtonElement[]
+let currentSketch: any = undefined
 
 window.onload = () => {
   canvasSetup(() => { }, () => { }, () => { })
-
-  overlay = <HTMLButtonElement>document.getElementById("pause-overlay")
-  dialog = <HTMLDivElement>document.getElementById("files-card")
-  restartBtn = <HTMLButtonElement>document.getElementById("restart-button")
-  closeBtn = <HTMLButtonElement>document.getElementById("close-button")
-  overlayPauseBtn = <HTMLButtonElement>document.getElementById("pause-button")
-  overlayReloadBtn = <HTMLButtonElement>document.getElementById("reload-button")
 
   overlay.addEventListener("mouseover", () => { if (!dialog.style.visibility) showPauseButton() })
   overlay.addEventListener("mouseout", () => { hidePauseButton() })
@@ -43,7 +38,6 @@ window.onload = () => {
     btn.innerHTML = "Go"
     btn.classList.add("btn", "btn-outline", "btn-primary", "btn-xs")
     btn.addEventListener("click", () => {
-      hideDialog()
       currentSketch = sketches[i]
       loadNewSketch()
       btn.blur()
@@ -80,6 +74,7 @@ function hidePauseButton() {
 
 function loadNewSketch() {
   audio.dispose()
+  if (typeof currentSketch !== "undefined")
   canvasSetup(
     currentSketch.object.preload,
     currentSketch.object.setup,
@@ -108,30 +103,44 @@ function canvasSetup(
   }
 ) {
 
-  try { p.remove() } catch (e) { }
+  try { p.remove() } catch (e) { if (typeof currentSketch !== "undefined") console.log(e) }
 
   // @ts-ignore
-  new p5((p) => { window.p = p })
+  new p5((p) => {
+    // @ts-ignore
+    window.p = p 
 
-  p.preload = () => { preloadFunction() }
-  p.draw = () => { drawFunction() }
-  p.setup = () => {
-    p.createCanvas(options.width, options.height)
-    p.pixelDensity(options.pixelDensity)
-    p.frameRate(options.fps)
-    setupFunction()
-  }
-  p.windowResized = () => {
-    p._updateWindowSize()
-    const canvas = document.querySelector("canvas") as HTMLCanvasElement
-    canvas.style.position = "absolute"
-    canvas.style.top = "50%"
-    canvas.style.left = "50%"
-    const scale = Math.min(window.innerWidth / options.width, window.innerHeight / options.height) * options.size
-    canvas.style.transform = "translate(-50%, -50%) scale(" + scale + ")"
-  }
+    p.preload = () => { preloadFunction() }
+    p.draw = () => { drawFunction() }
+    p.setup = () => {
+      p.createCanvas(options.width, options.height)
+      p.pixelDensity(options.pixelDensity)
+      p.frameRate(options.fps)
+      setupFunction()
+    }
+    p.windowResized = () => {
+      p._updateWindowSize()
+      const canvas = document.querySelector("canvas") as HTMLCanvasElement
+      canvas.style.position = "absolute"
+      canvas.style.top = "50%"
+      canvas.style.left = "50%"
+      const scale = Math.min(window.innerWidth / options.width, window.innerHeight / options.height) * options.size
+      canvas.style.transform = "translate(-50%, -50%) scale(" + scale + ")"
+    }
 
-  p.preload()
-  p.setup()
-  p.windowResized()
+    p.preload()
+    tryPreload(cardActions.insertBefore(loader, restartBtn))
+  })
+}
+
+async function tryPreload(node: HTMLDivElement) {
+  try {
+    p.setup()
+    if (typeof currentSketch !== "undefined") hideDialog()
+    p.windowResized()
+    node.remove()
+  } catch (e) {
+    console.log(e)
+    new Promise(resolve => setTimeout(resolve, 100)).then(() => { tryPreload(node) })
+  }
 }

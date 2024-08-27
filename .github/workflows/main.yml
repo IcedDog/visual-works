@@ -1,4 +1,5 @@
 # https://github.com/qmelo/oversubstitution/blob/main/.github/workflows/deploy.yml
+# This file falls under the MIT license, see `src/oversubstitution/LICENSE_MIT.txt`
 # 静的コンテンツを GitHub Pages にデプロイするためのシンプルなワークフロー
 name: Deploy static content to Pages
 

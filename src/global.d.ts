@@ -12,7 +12,12 @@ declare module "p5" {
         beginClip(options?: { invert?: boolean }): void
         endClip(): void
         _updateWindowSize(): void
+        _start(): void
+        _incrementPreload(): void
+        _decrementPreload(): void
+        preload(callback: () => void): void
         get _preloadDone(): boolean
+        get _preloadCount(): number
     }
     interface SoundFile {
         jump(time: number): void
