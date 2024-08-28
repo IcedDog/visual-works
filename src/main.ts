@@ -14,6 +14,7 @@ const loader = <HTMLDivElement>document.getElementById("p5_loading")?.cloneNode(
 let selectBtn: HTMLButtonElement[]
 let currentSketch: any = undefined
 let preloading = false
+export let pausing = false
 
 window.onload = () => {
   canvasSetup(() => { }, () => { }, () => { })
@@ -55,14 +56,16 @@ window.onload = () => {
 function showDialog() {
   if (p.isLooping()) p.noLoop()
   audio.pause()
+  pausing = true
   dialog.style.opacity = "1"
   dialog.style.pointerEvents = "auto"
 }
 
 function hideDialog() {
-  if (!p._preloadDone) return;
+  if (preloading) return;
   if (!p.isLooping()) p.loop()
   audio.play()
+  pausing = false
   dialog.style.opacity = "0"
   dialog.style.pointerEvents = "none"
 }

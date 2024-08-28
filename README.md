@@ -8,6 +8,7 @@ Refer to specific files for more license/copyright information
 
 ## plan
 
-- [ ] リズムイベント生成器（MIDI入力？）
+- [ ] イベント生成器（`.mid`入力？）
 - [ ] 動的値のカスタムUIコンポーネント
+- [ ] オーディオのコントロールを追加する（進捗バー、簡易時間軸など）
 - [ ] Canvasを動画にキャプチャする
