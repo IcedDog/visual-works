@@ -62,7 +62,7 @@ function showDialog() {
 }
 
 function hideDialog() {
-  if (preloading) return;
+  if (preloading || currentSketch === undefined) return;
   if (!p.isLooping()) p.loop()
   audio.play()
   pausing = false
@@ -144,8 +144,8 @@ async function tryPreload(node: HTMLDivElement) {
     p.draw()
     p.noLoop()
     node.remove()
-    hideDialog()
     preloading = false
+    hideDialog()
   } catch (e) {
     console.log(e)
     new Promise(resolve => setTimeout(resolve, 100)).then(() => { tryPreload(node) })
