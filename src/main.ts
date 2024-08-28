@@ -3,6 +3,7 @@ import * as audio from "./audio.ts"
 import "./global.d.ts"
 
 const overlay = <HTMLButtonElement>document.getElementById("pause-overlay")
+const backdrop = <HTMLButtonElement>document.getElementById("backdrop-overlay")
 const dialog = <HTMLDivElement>document.getElementById("files-card")
 const restartBtn = <HTMLButtonElement>document.getElementById("restart-button")
 const closeBtn = <HTMLButtonElement>document.getElementById("close-button")
@@ -59,6 +60,8 @@ function showDialog() {
   pausing = true
   dialog.style.opacity = "1"
   dialog.style.pointerEvents = "auto"
+  backdrop.style.opacity = "1"
+  backdrop.style.pointerEvents = "auto"
 }
 
 function hideDialog() {
@@ -68,6 +71,8 @@ function hideDialog() {
   pausing = false
   dialog.style.opacity = "0"
   dialog.style.pointerEvents = "none"
+  backdrop.style.opacity = "0"
+  backdrop.style.pointerEvents = "none"
 }
 
 function showPauseButton() {
