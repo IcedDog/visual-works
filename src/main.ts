@@ -73,6 +73,8 @@ function hideDialog() {
   dialog.style.pointerEvents = "none"
   backdrop.style.opacity = "0"
   backdrop.style.pointerEvents = "none"
+
+  for (let i = 0; i < document.getElementsByTagName("button").length; i++) selectBtn[i].blur()
 }
 
 function showPauseButton() {

@@ -1,6 +1,7 @@
 import * as experiments from './diverse';
 import * as another from './sample';
 import * as oversubstitution from './oversubstitution/index';
+import * as not_oversubstitution from './not-oversubstitution/index';
 
 export const sketches = [
     {
@@ -41,5 +42,18 @@ export const sketches = [
             "pixelDensity": window.devicePixelRatio
         },
         "audio": "oversubstitution/oversubstitution.wav"
+    },
+    {
+        "name": "一過置換",
+        "description": "一龠過置換",
+        "object": not_oversubstitution,
+        "options": {
+            "width": 1920,
+            "height": 1080,
+            "fps": 30,
+            "size": 1,
+            "pixelDensity": window.devicePixelRatio
+        },
+        "audio": "not-oversubstitution/mixed.wav"
     }
 ];

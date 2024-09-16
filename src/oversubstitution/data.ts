@@ -5,13 +5,6 @@ export let items: Item[]
 
 export const preload = () => {
     data = p.loadJSON("oversubstitution/data.json")
-    //p._incrementPreload()
-    //fetch("oversubstitution/data.json")
-    //    .then(response => response.json())
-    //    .then(json => {
-    //        data = json
-    //        p._decrementPreload()
-    //    })
 }
 
 export const setup = () => {
